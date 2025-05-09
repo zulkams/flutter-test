@@ -13,7 +13,7 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Cart'), forceMaterialTransparency: true),
-      body: BlocBuilder<CartCubit, Map<ProductModel, int>>(
+      body: BlocBuilder<CartCubit, Map<ProductModel?, int>>(
         builder: (context, cartItems) {
           if (cartItems.isEmpty) {
             return const Center(child: Text('Cart is empty'));
@@ -37,11 +37,14 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  ListTile renderCartTile(ProductModel item, int quantity) {
+  ListTile renderCartTile(ProductModel? item, int quantity) {
     return ListTile(
-      leading: CachedNetworkImage(imageUrl: item.image, height: 100, fit: BoxFit.cover),
-      title: Text(item.title),
-      subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('Quantity: $quantity'), Text('Price: ${(item.price * quantity).displayPrice}')]),
+      leading: CachedNetworkImage(imageUrl: item?.image ?? '', height: 50, width: 50, fit: BoxFit.cover),
+      title: Text(item?.title ?? ''),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [Text('Quantity: $quantity'), Text('Price: ${(item?.price ?? 0.0 * quantity).displayPrice}')],
+      ),
     );
   }
 }

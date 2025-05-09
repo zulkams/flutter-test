@@ -17,13 +17,13 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ProductModel(
-      id: fields[0] as int,
-      title: fields[1] as String,
-      price: fields[2] as double,
-      description: fields[3] as String,
-      category: fields[4] as String,
-      image: fields[5] as String,
-      rating: fields[6] as RatingModel,
+      id: fields[0] as int?,
+      title: fields[1] as String?,
+      price: fields[2] as double?,
+      description: fields[3] as String?,
+      category: fields[4] as String?,
+      image: fields[5] as String?,
+      rating: fields[6] as RatingModel?,
     );
   }
 
@@ -63,13 +63,15 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
 // **************************************************************************
 
 ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel(
-      id: (json['id'] as num).toInt(),
-      title: json['title'] as String,
-      price: (json['price'] as num).toDouble(),
-      description: json['description'] as String,
-      category: json['category'] as String,
-      image: json['image'] as String,
-      rating: RatingModel.fromJson(json['rating'] as Map<String, dynamic>),
+      id: (json['id'] as num?)?.toInt(),
+      title: json['title'] as String?,
+      price: (json['price'] as num?)?.toDouble(),
+      description: json['description'] as String?,
+      category: json['category'] as String?,
+      image: json['image'] as String?,
+      rating: json['rating'] == null
+          ? null
+          : RatingModel.fromJson(json['rating'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
