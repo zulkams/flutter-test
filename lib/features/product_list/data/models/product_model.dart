@@ -8,37 +8,37 @@ part 'product_model.g.dart';
 @JsonSerializable()
 class ProductModel {
   @HiveField(0)
-  final int id;
+  final int? id;
 
   @HiveField(1)
-  final String title;
+  final String? title;
 
   @HiveField(2)
-  final double price;
+  final double? price;
 
   @HiveField(3)
-  final String description;
+  final String? description;
 
   @HiveField(4)
-  final String category;
+  final String? category;
 
   @HiveField(5)
-  final String image;
+  final String? image;
 
   @HiveField(6)
-  final RatingModel rating;
+  final RatingModel? rating;
 
-  ProductModel({
-    required this.id,
-    required this.title,
-    required this.price,
-    required this.description,
-    required this.category,
-    required this.image,
-    required this.rating,
-  });
+  ProductModel({this.id, this.title, this.price, this.description, this.category, this.image, this.rating});
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => _$ProductModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductModelToJson(this);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ProductModel && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }

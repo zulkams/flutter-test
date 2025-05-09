@@ -62,7 +62,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
           forceMaterialTransparency: true,
           actionsPadding: const EdgeInsets.only(right: 16),
           actions: [
-            BlocBuilder<CartCubit, Map<ProductModel, int>>(
+            BlocBuilder<CartCubit, Map<ProductModel?, int>>(
               builder: (context, cartItems) {
                 final totalItems = cartItems.values.fold(0, (sum, quantity) => sum + quantity);
                 return GestureDetector(child: Badge(label: Text(totalItems.toString()), child: const Icon(Icons.shopping_cart)), onTap: () => context.pushNamed('cart'));
@@ -83,12 +83,12 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     } else if (state is ProductError) {
                       return renderError(message: state.message);
                     } else if (state is ProductLoaded) {
-                      categories = ['All', ...state.products.map((product) => product.category).toSet()];
+                      categories = ['All', ...state.products.map((product) => product.category ?? '').where((category) => category.isNotEmpty).toSet()];
                       searchedProducts =
                           state.products.where((product) {
-                            final matchesSearch = product.title.toLowerCase().contains(_searchQuery);
+                            final matchesSearch = product.title?.toLowerCase().contains(_searchQuery);
                             final matchesCategory = _selectedCategory == null || _selectedCategory == 'All' || product.category == _selectedCategory;
-                            return matchesSearch && matchesCategory;
+                            return matchesSearch! && matchesCategory;
                           }).toList();
                       return renderLists(searchedProducts);
                     } else {
