@@ -1,16 +1,61 @@
-# flutter_test_myeg
+# Flutter Test Project
 
-A new Flutter project.
+## Project Overview
+
+This is a Flutter application demonstrating basic functionalities such as product listing, product details, cart management, product search, and category filtering using the Fake Store API.
+
+## Features
+
+* Product List
+
+  * Fetches product list from the Fake Store API.
+  * Displays product name, price, and rating.
+* Product Details
+
+  * Navigates to product details page upon tapping a product.
+  * Shows product name, description, price, image (zoomable using pinch), and rating.
+* Cart Functionality
+
+  * Add products to the cart.
+  * Persist cart data using local storage (Hive).
+  * Remove products from the cart.
+* Product Search
+
+  * Search products by name.
+* Category Filtering
+
+  * Filter products by category.
+
+## Branching Strategy
+
+* `main`: Base branch for the project.
+* `develop`: For develop main branch
+* `develop-zul`: For chores
+* `product-list`: Feature branch for product list implementation.
+* `product-details`: Feature branch for product details implementation.
 
 ## Getting Started
+### Installation
 
-This project is a starting point for a Flutter application.
+1. Clone the repository:
 
-A few resources to get you started if this is your first Flutter project:
+   ```bash
+   git clone <repository_url>
+   cd flutter-test
+   ```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+2. Install dependencies:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+   ```bash
+   flutter pub get
+   ```
+
+3. Run the application:
+
+   ```bash
+   flutter run
+   ```
+
+## Notes
+
+* Pinch gesture is used for image zoom on the product details page.
