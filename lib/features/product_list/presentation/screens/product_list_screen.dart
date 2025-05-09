@@ -1,12 +1,14 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test_myeg/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:flutter_test_myeg/features/product_list/data/models/product_model.dart';
 import 'package:flutter_test_myeg/features/product_list/extensions/product_extension.dart';
 import 'package:flutter_test_myeg/features/product_list/presentation/cubit/product_cubit.dart';
 import 'package:flutter_test_myeg/features/product_list/presentation/widgets/product_card.dart';
 import 'package:flutter_test_myeg/core/widgets/app_search_bar.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 final productCubit = GetIt.instance<ProductCubit>();
 
@@ -58,6 +60,15 @@ class _ProductListScreenState extends State<ProductListScreen> {
         appBar: AppBar(
           title: const Text('Product Lists'),
           forceMaterialTransparency: true,
+          actionsPadding: const EdgeInsets.only(right: 16),
+          actions: [
+            BlocBuilder<CartCubit, Map<ProductModel, int>>(
+              builder: (context, cartItems) {
+                final totalItems = cartItems.values.fold(0, (sum, quantity) => sum + quantity);
+                return GestureDetector(child: Badge(label: Text(totalItems.toString()), child: const Icon(Icons.shopping_cart)), onTap: () => context.pushNamed('cart'));
+              },
+            ),
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(12.0),

@@ -3,6 +3,7 @@ import 'package:flutter_test_myeg/features/product_list/presentation/cubit/produ
 import 'package:flutter_test_myeg/features/product_list/presentation/screens/product_list_screen.dart';
 import 'package:flutter_test_myeg/routes/app_routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test_myeg/features/cart/presentation/cubit/cart_cubit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider<ProductCubit>(create: (context) => productCubit..fetchProducts())],
+      providers: [BlocProvider<ProductCubit>(create: (context) => productCubit..fetchProducts()), BlocProvider<CartCubit>(create: (_) => CartCubit())],
       child: MaterialApp.router(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
