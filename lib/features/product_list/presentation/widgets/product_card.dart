@@ -18,10 +18,10 @@ class ProductCard extends StatelessWidget {
         dense: true,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         minTileHeight: 200,
-        title: Text(product.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        title: Text(product.title ?? '', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text(product.price.displayPrice, style: const TextStyle(color: Colors.green, fontWeight: FontWeight.w600)), buildRating()],
+          children: [Text(product.price?.displayPrice ?? '', style: const TextStyle(color: Colors.green, fontWeight: FontWeight.w600)), buildRating()],
         ),
         onTap: () => context.pushNamed('productDetails', pathParameters: {'id': product.id.toString()}, extra: product),
       ),
@@ -32,10 +32,10 @@ class ProductCard extends StatelessWidget {
     return Row(
       children: [
         Text('Rating: '),
-        Text('${product.rating.rate}'),
+        Text('${product.rating?.rate}'),
         const Icon(Icons.star, color: Colors.amber, size: 16),
         SizedBox(width: 1),
-        Text('(${product.rating.count})'),
+        Text('(${product.rating?.count})'),
       ],
     );
   }

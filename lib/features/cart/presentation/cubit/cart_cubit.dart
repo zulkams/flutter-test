@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test_myeg/features/product_list/data/models/product_model.dart';
 import 'package:hive/hive.dart';
 
-class CartCubit extends Cubit<Map<ProductModel, int>> {
+class CartCubit extends Cubit<Map<ProductModel?, int>> {
   CartCubit() : super({}) {
     _loadCartFromHive();
   }
@@ -16,10 +16,16 @@ class CartCubit extends Cubit<Map<ProductModel, int>> {
 
   // load
   Future<void> _loadCartFromHive() async {
+    emit({});
+
     final box = await _getCartBox();
     final storedCart = box.get('cart', defaultValue: {});
-    emit(storedCart!.map((key, value) => MapEntry(key as ProductModel, value as int)));
-    combineCartItems();
+
+    if (storedCart != null && storedCart is Map) {
+      emit(storedCart.map((key, value) => MapEntry(key as ProductModel, value as int)));
+    } else {
+      emit({});
+    }
   }
 
   //savee
@@ -30,10 +36,14 @@ class CartCubit extends Cubit<Map<ProductModel, int>> {
 
   // add to caet
   void addToCart(ProductModel product, {int quantity = 1}) {
-    final updatedCart = Map<ProductModel, int>.from(state);
-    if (updatedCart.containsKey(product)) {
-      updatedCart[product] = updatedCart[product]! + quantity;
+    final updatedCart = Map<ProductModel?, int>.from(state);
+
+    final ProductModel? existingProduct = updatedCart.keys.firstWhere((item) => item?.id == product.id, orElse: () => null);
+
+    if (existingProduct != null) {
+      updatedCart[existingProduct] = updatedCart[existingProduct]! + quantity;
     } else {
+      // add new product
       updatedCart[product] = quantity;
     }
     emit(updatedCart);
@@ -47,11 +57,11 @@ class CartCubit extends Cubit<Map<ProductModel, int>> {
 
   //combine item
   void combineCartItems() {
-    final combinedCart = state.entries.fold<Map<ProductModel, int>>({}, (acc, entry) {
+    final combinedCart = state.entries.fold<Map<ProductModel?, int>>({}, (acc, entry) {
       final item = entry.key;
       final quantity = entry.value;
 
-      final existingItemList = acc.keys.where((existing) => existing.id == item.id).toList();
+      final existingItemList = acc.keys.where((existing) => existing?.id == item?.id).toList();
 
       if (existingItemList.isNotEmpty) {
         final existingItem = existingItemList.first;

@@ -28,7 +28,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         forceMaterialTransparency: true,
         actionsPadding: const EdgeInsets.only(right: 16),
         actions: [
-          BlocBuilder<CartCubit, Map<ProductModel, int>>(
+          BlocBuilder<CartCubit, Map<ProductModel?, int>>(
             builder: (context, cartItems) {
               final totalItems = cartItems.values.fold(0, (sum, quantity) => sum + quantity);
               return GestureDetector(child: Badge(label: Text(totalItems.toString()), child: const Icon(Icons.shopping_cart)), onTap: () => context.pushNamed('cart'));
@@ -45,7 +45,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             const SizedBox(height: 16),
             buildDetailsSection(),
             const SizedBox(height: 8),
-            buildRatingStars(widget.product.rating.rate, widget.product.rating.count),
+            buildRatingStars(widget.product.rating?.rate, widget.product.rating?.count),
             const SizedBox(height: 8),
             buildAddCartSection(),
             const SizedBox(height: 20),
@@ -59,19 +59,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.product.title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+        Text(widget.product.title ?? '', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         const SizedBox(height: 4),
-        Text('Category: ${widget.product.category.displayName}', style: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic, color: Colors.grey)),
+        Text('Category: ${widget.product.category?.displayName}', style: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic, color: Colors.grey)),
         const SizedBox(height: 8),
-        Text(widget.product.description, style: const TextStyle(fontSize: 16)),
+        Text(widget.product.description ?? '', style: const TextStyle(fontSize: 16)),
         const SizedBox(height: 16),
-        Text(widget.product.price.displayPrice, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.green)),
+        Text(widget.product.price?.displayPrice ?? '', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.green)),
       ],
     );
   }
 
-  BlocBuilder<CartCubit, Map<ProductModel, int>> buildAddCartSection() {
-    return BlocBuilder<CartCubit, Map<ProductModel, int>>(
+  BlocBuilder<CartCubit, Map<ProductModel?, int>> buildAddCartSection() {
+    return BlocBuilder<CartCubit, Map<ProductModel?, int>>(
       builder: (context, cartItems) {
         return Column(
           children: [
@@ -114,7 +114,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   PinchZoomReleaseUnzoomWidget buildProductImage() {
     return PinchZoomReleaseUnzoomWidget(
       child: CachedNetworkImage(
-        imageUrl: widget.product.image,
+        imageUrl: widget.product.image ?? '',
         width: double.infinity,
         height: 250,
         fit: BoxFit.contain,
