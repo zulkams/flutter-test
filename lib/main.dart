@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test_myeg/ui/screens/home_screen.dart';
+import 'package:flutter_test_myeg/app.dart';
+import 'package:flutter_test_myeg/core/dependency_injection/dependency_injection.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // DI
+  await setupDependencies();
   runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(title: 'Flutter Demo', theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)), home: HomeScreen(),);
-  }
 }
