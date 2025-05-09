@@ -57,5 +57,5 @@ This is a Flutter application demonstrating basic functionalities such as produc
    ```
 
 ## Notes
-
+* The is insignificant (0.2s-0.5s app hang) initial performance drop when doing Product Search for the first time on Debug mode due to Flutter Debug mode JIT
 * Pinch gesture is used for image zoom on the product details page.
