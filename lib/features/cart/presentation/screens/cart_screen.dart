@@ -38,13 +38,11 @@ class CartScreen extends StatelessWidget {
   }
 
   ListTile renderCartTile(ProductModel? item, int quantity) {
+    final price = (item?.price ?? 0.0) * quantity;
     return ListTile(
       leading: CachedNetworkImage(imageUrl: item?.image ?? '', height: 50, width: 50, fit: BoxFit.cover),
       title: Text(item?.title ?? ''),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [Text('Quantity: $quantity'), Text('Price: ${(item?.price ?? 0.0 * quantity).displayPrice}')],
-      ),
+      subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('Quantity: $quantity'), Text('Price: ${price.displayPrice}')]),
     );
   }
 }
