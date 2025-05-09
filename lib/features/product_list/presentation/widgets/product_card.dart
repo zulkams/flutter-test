@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_myeg/features/product_list/data/models/product_model.dart';
 import 'package:flutter_test_myeg/features/product_list/extensions/product_extension.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({super.key, required this.product});
@@ -22,7 +23,7 @@ class ProductCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [Text(product.price.displayPrice, style: const TextStyle(color: Colors.green, fontWeight: FontWeight.w600)), buildRating()],
         ),
-        onTap: () {},
+        onTap: () => context.pushNamed('productDetails', pathParameters: {'id': product.id.toString()}, extra: product),
       ),
     );
   }
